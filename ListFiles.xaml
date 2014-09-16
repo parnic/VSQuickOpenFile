@@ -8,7 +8,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ListBox Name="lstFiles" SelectionMode="Extended">
+        <ListBox Name="lstFiles" SelectionMode="Extended" KeyDown="lstFiles_KeyDown" MouseDoubleClick="lstFiles_MouseDoubleClick">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Filename}"/>

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Linq;
 
 namespace PerniciousGames.OpenFileInSolution
 {
@@ -15,6 +17,7 @@ namespace PerniciousGames.OpenFileInSolution
         public ObservableCollection<ProjectItemWrapper> items { get; set; }
 
         private CollectionViewSource viewSource;
+        private bool bSearchFullPath; // todo: config-ize me
 
         // todo: save static list of last-entered strings. restore most recent one when opening.
 
@@ -34,24 +37,22 @@ namespace PerniciousGames.OpenFileInSolution
 
         private void FilterProjectItems(object sender, FilterEventArgs e)
         {
-            // i don't like rebuilding this array for each element in the list, but if i make it a class property, it's garbage generation all the way down
-            string[] searchFilters;
-            if (!string.IsNullOrEmpty(txtFilter.Text) && txtFilter.Text.Contains(" "))
-            {
-                searchFilters = txtFilter.Text.Split(' ');
-            }
-            else
-            {
-                searchFilters = new string[1] { txtFilter.Text };
-            }
-
             e.Accepted = true;
-            foreach (var filter in searchFilters)
+            if (!string.IsNullOrEmpty(txtFilter.Text))
             {
-                if (!string.IsNullOrWhiteSpace(filter) && !(e.Item as ProjectItemWrapper).Filename.ToLower().Contains(filter))
+                foreach (var filter in txtFilter.Text.Split(' '))
                 {
-                    e.Accepted = false;
-                    break;
+                    var searchStr = (e.Item as ProjectItemWrapper).Filename.ToLower();
+                    if (!bSearchFullPath)
+                    {
+                        searchStr = Path.GetFileName(searchStr);
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(filter) && !searchStr.Contains(filter))
+                    {
+                        e.Accepted = false;
+                        break;
+                    }
                 }
             }
         }
@@ -59,6 +60,16 @@ namespace PerniciousGames.OpenFileInSolution
         private void txtFilterChanged(object sender, TextChangedEventArgs e)
         {
             viewSource.View.Refresh();
+        }
+
+        private void OpenSelectedFiles()
+        {
+            foreach (var item in lstFiles.SelectedItems)
+            {
+                var w = (item as ProjectItemWrapper).ProjItem.Open();
+                w.Visible = true;
+            }
+            Close();
         }
 
         private void txtFilter_KeyDown(object sender, KeyEventArgs e)
@@ -69,12 +80,7 @@ namespace PerniciousGames.OpenFileInSolution
             }
             else if (e.Key == Key.Enter || e.Key == Key.Return)
             {
-                foreach (var item in lstFiles.SelectedItems)
-                {
-                    var w = (item as ProjectItemWrapper).ProjItem.Open();
-                    w.Visible = true;
-                }
-                Close();
+                OpenSelectedFiles();
             }
             else if (lstFiles.Items.Count > 0)
             {
@@ -82,9 +88,15 @@ namespace PerniciousGames.OpenFileInSolution
                 {
                     if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                     {
-                        if (lstFiles.Items.Count > lstFiles.SelectedIndex)
+                        var lastSelectedIndex = -1;
+                        if (lstFiles.SelectedItems.Count > 0)
                         {
-                            lstFiles.SelectedItems.Add(lstFiles.Items[lstFiles.SelectedIndex + 1]);
+                            lastSelectedIndex = lstFiles.SelectedItems.Cast<object>().Max(x => lstFiles.Items.IndexOf(x));
+                        }
+
+                        if (lstFiles.Items.Count > lastSelectedIndex + 1 && lastSelectedIndex >= 0)
+                        {
+                            lstFiles.SelectedItems.Add(lstFiles.Items[lastSelectedIndex + 1]);
                         }
                     }
                     else
@@ -104,9 +116,15 @@ namespace PerniciousGames.OpenFileInSolution
                 {
                     if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                     {
-                        if (lstFiles.SelectedIndex > 0)
+                        var firstSelectedIndex = -1;
+                        if (lstFiles.SelectedItems.Count > 0)
                         {
-                            lstFiles.SelectedItems.Add(lstFiles.Items[lstFiles.SelectedIndex - 1]);
+                            firstSelectedIndex = lstFiles.SelectedItems.Cast<object>().Min(x => lstFiles.Items.IndexOf(x));
+                        }
+
+                        if (firstSelectedIndex > 0)
+                        {
+                            lstFiles.SelectedItems.Add(lstFiles.Items[firstSelectedIndex - 1]);
                         }
                     }
                     else
@@ -123,6 +141,20 @@ namespace PerniciousGames.OpenFileInSolution
                     lstFiles.ScrollIntoView(lstFiles.SelectedItems[0]);
                 }
             }
+        }
+
+        private void lstFiles_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
+                OpenSelectedFiles();
+            }
+        }
+
+        private void lstFiles_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            OpenSelectedFiles();
         }
     }
 }
