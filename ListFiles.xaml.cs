@@ -17,7 +17,7 @@ namespace PerniciousGames.OpenFileInSolution
         public ObservableCollection<ProjectItemWrapper> items { get; set; }
 
         private CollectionViewSource viewSource;
-        private bool bSearchFullPath; // todo: config-ize me
+        public bool bSearchFullPath { get; set; } // todo: config-ize me
 
         private string[] filterStrings;
 
@@ -158,6 +158,23 @@ namespace PerniciousGames.OpenFileInSolution
         private void lstFiles_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             OpenSelectedFiles();
+        }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            if (grdSettings.Visibility == Visibility.Collapsed)
+            {
+                grdSettings.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                grdSettings.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void chkSearchFullPath_Checked(object sender, RoutedEventArgs e)
+        {
+            viewSource.View.Refresh();
         }
     }
 }

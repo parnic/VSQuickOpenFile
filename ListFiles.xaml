@@ -8,6 +8,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ListBox Name="lstFiles" SelectionMode="Extended" KeyDown="lstFiles_KeyDown" MouseDoubleClick="lstFiles_MouseDoubleClick">
             <ListBox.ItemTemplate>
@@ -16,6 +17,17 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <TextBox Grid.Row="1" Name="txtFilter" TextChanged="txtFilterChanged" PreviewKeyDown="txtFilter_KeyDown"/>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Name="txtFilter" TextChanged="txtFilterChanged" PreviewKeyDown="txtFilter_KeyDown"/>
+            <Button Content="Settings" Grid.Column="1" Click="btnSettings_Click"/>
+        </Grid>
+        <Grid Grid.Row="1" Name="grdSettings" Visibility="Collapsed">
+            <CheckBox IsChecked="{Binding bSearchFullPath, Mode=TwoWay}" Checked="chkSearchFullPath_Checked" Unchecked="chkSearchFullPath_Checked"
+                      Content="Search full path" HorizontalAlignment="Left"/>
+        </Grid>
     </Grid>
 </Window>
