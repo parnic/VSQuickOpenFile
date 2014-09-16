@@ -19,6 +19,8 @@ namespace PerniciousGames.OpenFileInSolution
         private CollectionViewSource viewSource;
         private bool bSearchFullPath; // todo: config-ize me
 
+        private string[] filterStrings;
+
         // todo: save static list of last-entered strings. restore most recent one when opening.
 
         public ListFiles(IEnumerable<ProjectItemWrapper> inItems)
@@ -40,7 +42,7 @@ namespace PerniciousGames.OpenFileInSolution
             e.Accepted = true;
             if (!string.IsNullOrEmpty(txtFilter.Text))
             {
-                foreach (var filter in txtFilter.Text.Split(' '))
+                foreach (var filter in filterStrings)
                 {
                     var searchStr = (e.Item as ProjectItemWrapper).Filename.ToLower();
                     if (!bSearchFullPath)
@@ -59,6 +61,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         private void txtFilterChanged(object sender, TextChangedEventArgs e)
         {
+            filterStrings = (sender as TextBox).Text.Split(' ');
             viewSource.View.Refresh();
         }
 
