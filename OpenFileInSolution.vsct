@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable">
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+
+  <Commands package="guidOpenFileInSolution">
+    <Groups>
+      <Group guid="guidMenuCmdSet" id="MyMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+      </Group>
+    </Groups>
+    <Buttons>
+      <Button guid="guidMenuCmdSet" id="cmdidMyCommand" priority="0x0100" type="Button">
+        <Parent guid="guidMenuCmdSet" id="MyMenuGroup" />
+        <Strings>
+          <ButtonText>Open File In Solution</ButtonText>
+          <CommandName>OpenFileInSolution</CommandName>
+        </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+  <Symbols>
+    <GuidSymbol name="guidOpenFileInSolution" value="{6bb18fff-9e74-4deb-97df-6a94ddafb74e}"/>
+    <GuidSymbol name="guidMenuCmdSet" value="{0570a35e-896b-4615-b4ca-0c661f920368}">
+      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="cmdidMyCommand" value="0x0100" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>
