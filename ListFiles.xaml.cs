@@ -89,6 +89,7 @@ namespace PerniciousGames.OpenFileInSolution
             {
                 if (e.Key == Key.Down)
                 {
+                    e.Handled = true;
                     if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                     {
                         var lastSelectedIndex = -1;
@@ -97,7 +98,7 @@ namespace PerniciousGames.OpenFileInSolution
                             lastSelectedIndex = lstFiles.SelectedItems.Cast<object>().Max(x => lstFiles.Items.IndexOf(x));
                         }
 
-                        if (lstFiles.Items.Count > lastSelectedIndex + 1 && lastSelectedIndex >= 0)
+                        if (lstFiles.Items.Count > lastSelectedIndex + 1 && lastSelectedIndex >= -1)
                         {
                             lstFiles.SelectedItems.Add(lstFiles.Items[lastSelectedIndex + 1]);
                         }
@@ -117,9 +118,10 @@ namespace PerniciousGames.OpenFileInSolution
                 }
                 else if (e.Key == Key.Up)
                 {
+                    e.Handled = true;
                     if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                     {
-                        var firstSelectedIndex = -1;
+                        var firstSelectedIndex = lstFiles.Items.Count;
                         if (lstFiles.SelectedItems.Count > 0)
                         {
                             firstSelectedIndex = lstFiles.SelectedItems.Cast<object>().Min(x => lstFiles.Items.IndexOf(x));
