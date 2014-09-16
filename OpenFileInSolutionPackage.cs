@@ -4,6 +4,7 @@ using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Windows.Interop;
 using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
@@ -177,7 +178,11 @@ namespace PerniciousGames.OpenFileInSolution
                 projItems.AddRange(EnumerateProjectItems(proj.ProjectItems));
             }
 
-            new ListFiles(projItems).ShowDialog();
+            var wnd = new ListFiles(projItems);
+            wnd.Owner = HwndSource.FromHwnd(new IntPtr(GetActiveIDE().MainWindow.HWnd)).RootVisual as System.Windows.Window;
+            wnd.Width = wnd.Owner.Width / 2;
+            wnd.Height = wnd.Owner.Height / 3;
+            wnd.ShowDialog();
         }
     }
 }

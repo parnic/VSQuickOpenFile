@@ -1,8 +1,9 @@
 ﻿<Window x:Class="PerniciousGames.OpenFileInSolution.ListFiles"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ListFiles" Height="300" Width="675"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+        Title="Quick Open File" Height="300" Width="675" WindowStartupLocation="CenterOwner"
+        MinWidth="200" MinHeight="100"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" ShowInTaskbar="False">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
