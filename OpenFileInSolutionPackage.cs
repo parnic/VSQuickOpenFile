@@ -23,7 +23,7 @@ namespace PerniciousGames.OpenFileInSolution
         public ProjectItemWrapper(ProjectItem inItem)
         {
             ProjItem = inItem;
-            Filename = inItem.FileNames[0];
+            Filename = inItem.FileNames[1];
         }
     }
 
@@ -159,7 +159,7 @@ namespace PerniciousGames.OpenFileInSolution
                 }
                 else
                 {
-                    Debug.WriteLine(itm.Kind + " - " + itm.FileCount + " - " + itm.FileNames[0]);
+                    //Debug.WriteLine(itm.Kind + " - " + itm.FileCount + " - " + itm.FileNames[0]);
                     for (short j = 0; itm != null && j < itm.FileCount; j++)
                     {
                         yield return new ProjectItemWrapper(itm);
