@@ -63,6 +63,10 @@ namespace PerniciousGames.OpenFileInSolution
         {
             filterStrings = (sender as TextBox).Text.Split(' ');
             viewSource.View.Refresh();
+            if (lstFiles.SelectedIndex == -1 && lstFiles.Items.Count > 0)
+            {
+                lstFiles.SelectedIndex = 0;
+            }
         }
 
         private void OpenSelectedFiles()
@@ -77,15 +81,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         private void txtFilter_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
-            {
-                Close();
-            }
-            else if (e.Key == Key.Enter || e.Key == Key.Return)
-            {
-                OpenSelectedFiles();
-            }
-            else if (lstFiles.Items.Count > 0)
+            if (lstFiles.Items.Count > 0)
             {
                 if (e.Key == Key.Down)
                 {
@@ -148,18 +144,12 @@ namespace PerniciousGames.OpenFileInSolution
             }
         }
 
-        private void lstFiles_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                e.Handled = true;
-                OpenSelectedFiles();
-            }
-        }
-
         private void lstFiles_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            OpenSelectedFiles();
+            if (lstFiles.SelectedItems.Count > 0)
+            {
+                OpenSelectedFiles(false);
+            }
         }
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)
@@ -177,6 +167,20 @@ namespace PerniciousGames.OpenFileInSolution
         private void chkSearchFullPath_Checked(object sender, RoutedEventArgs e)
         {
             viewSource.View.Refresh();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter || e.Key == Key.Return)
+            {
+                e.Handled = true;
+                OpenSelectedFiles(Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl));
+            }
+            else if (e.Key == Key.Escape)
+            {
+                e.Handled = true;
+                Close();
+            }
         }
     }
 }
