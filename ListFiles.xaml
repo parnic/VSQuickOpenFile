@@ -22,7 +22,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox Name="txtFilter" TextChanged="txtFilterChanged" PreviewKeyDown="txtFilter_KeyDown"/>
+            <TextBox Name="txtFilter" Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="txtFilterChanged" PreviewKeyDown="txtFilter_KeyDown"/>
             <Button Content="Settings" Grid.Column="1" Click="btnSettings_Click"/>
         </Grid>
         <Grid Grid.Row="1" Name="grdSettings" Visibility="Collapsed">

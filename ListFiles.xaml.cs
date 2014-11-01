@@ -21,26 +21,29 @@ namespace PerniciousGames.OpenFileInSolution
 
         private string[] filterStrings;
 
+        public static string FilterText { get; set; }
+
         // todo: save static list of last-entered strings. restore most recent one when opening.
 
         public ListFiles(IEnumerable<ProjectItemWrapper> inItems)
         {
             items = new ObservableCollection<ProjectItemWrapper>(inItems);
             viewSource = new CollectionViewSource();
+            viewSource.Source = items;
 
             InitializeComponent();
 
             viewSource.Filter += FilterProjectItems;
-            viewSource.Source = items;
             lstFiles.ItemsSource = viewSource.View;
 
             txtFilter.Focus();
+            txtFilter.SelectAll();
         }
 
         private void FilterProjectItems(object sender, FilterEventArgs e)
         {
             e.Accepted = true;
-            if (!string.IsNullOrEmpty(txtFilter.Text))
+            if (!string.IsNullOrEmpty(FilterText))
             {
                 foreach (var filter in filterStrings)
                 {
