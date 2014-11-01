@@ -39,6 +39,10 @@ namespace PerniciousGames.OpenFileInSolution
 
             txtFilter.Focus();
             txtFilter.SelectAll();
+            if (!string.IsNullOrEmpty(FilterText))
+            {
+                txtFilterChanged(txtFilter, TextChangedEventArgs.Empty as TextChangedEventArgs);
+            }
         }
 
         private void FilterProjectItems(object sender, FilterEventArgs e)
