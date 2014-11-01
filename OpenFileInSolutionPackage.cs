@@ -43,11 +43,14 @@ namespace PerniciousGames.OpenFileInSolution
     [PackageRegistration(UseManagedResourcesOnly = true)]
     // This attribute is used to register the information needed to show this package
     // in the Help/About dialog of Visual Studio.
-    [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
+    [InstalledProductRegistration(true, "#110", "#112", "1.2", IconResourceID = 400)]
     [Guid(GuidList.guidOpenFileInSolutionPkgString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed class OpenFileInSolutionPackage : Package
     {
+        static readonly Guid ProjectFileGuid = new Guid("6BB5F8EE-4483-11D3-8BCF-00C04F8EC28C");
+        static readonly Guid ProjectFolderGuid = new Guid("6BB5F8F0-4483-11D3-8BCF-00C04F8EC28C");
+
         /// <summary>
         /// Default constructor of the package.
         /// Inside this method you can place any initialization code that does not require 
@@ -60,11 +63,30 @@ namespace PerniciousGames.OpenFileInSolution
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
         }
 
-
-
         /////////////////////////////////////////////////////////////////////////////
         // Overridden Package Implementation
         #region Package Members
+
+        /// <summary>
+        /// Initialization of the package; this method is called right after the package is sited, so this is the place
+        /// where you can put all the initialization code that rely on services provided by VisualStudio.
+        /// </summary>
+        protected override void Initialize()
+        {
+            Debug.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
+            base.Initialize();
+
+            OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            if (null != mcs)
+            {
+                // Create the command for the menu item.
+                CommandID menuCommandID = new CommandID(GuidList.guidOpenFileInSolutionCmdSet, 0x100);
+                MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
+                mcs.AddCommand(menuItem);
+            }
+            // todo: add option to jump between h and cpp?
+        }
+        #endregion
 
         public static DTE2 GetActiveIDE()
         {
@@ -73,7 +95,7 @@ namespace PerniciousGames.OpenFileInSolution
             return dte2;
         }
 
-        public static IList<Project> Projects()
+        public static IList<Project> GetProjects()
         {
             Projects projects = GetActiveIDE().Solution.Projects;
             List<Project> list = new List<Project>();
@@ -123,29 +145,6 @@ namespace PerniciousGames.OpenFileInSolution
             return list;
         }
 
-        static readonly Guid ProjectFileGuid = new Guid("6BB5F8EE-4483-11D3-8BCF-00C04F8EC28C");
-        static readonly Guid ProjectFolderGuid = new Guid("6BB5F8F0-4483-11D3-8BCF-00C04F8EC28C");
-
-        /// <summary>
-        /// Initialization of the package; this method is called right after the package is sited, so this is the place
-        /// where you can put all the initialization code that rely on services provided by VisualStudio.
-        /// </summary>
-        protected override void Initialize()
-        {
-            Debug.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
-            base.Initialize();
-
-            OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if (null != mcs)
-            {
-                // Create the command for the menu item.
-                CommandID menuCommandID = new CommandID(GuidList.guidOpenFileInSolutionCmdSet, 0x100);
-                MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID);
-                mcs.AddCommand(menuItem);
-            }
-            // todo: add option to jump between h and cpp?
-        }
-
         private IEnumerable<ProjectItemWrapper> EnumerateProjectItems(ProjectItems items)
         {
             for (int i = 1; i <= items.Count; i++)
@@ -168,12 +167,11 @@ namespace PerniciousGames.OpenFileInSolution
                 }
             }
         }
-        #endregion
 
         private void MenuItemCallback(object sender, EventArgs e)
         {
             var projItems = new List<ProjectItemWrapper>();
-            foreach (var proj in Projects())
+            foreach (var proj in GetProjects())
             {
                 projItems.AddRange(EnumerateProjectItems(proj.ProjectItems));
             }

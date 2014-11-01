@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Linq;
+using EnvDTE;
 
 namespace PerniciousGames.OpenFileInSolution
 {
@@ -72,12 +73,24 @@ namespace PerniciousGames.OpenFileInSolution
             }
         }
 
-        private void OpenSelectedFiles()
+        private void OpenSelectedFiles(bool bInSolutionExplorer)
         {
             foreach (var item in lstFiles.SelectedItems)
             {
-                var w = (item as ProjectItemWrapper).ProjItem.Open();
-                w.Visible = true;
+                if (!bInSolutionExplorer)
+                {
+                    var w = (item as ProjectItemWrapper).ProjItem.Open();
+                    w.Visible = true;
+                }
+                else
+                {
+                    var projItem = (item as ProjectItemWrapper).ProjItem;
+                    var ide = OpenFileInSolutionPackage.GetActiveIDE();
+                    ide.Windows.Item(Constants.vsWindowKindSolutionExplorer).Activate();
+                    projItem.ExpandView();
+                    //((Microsoft.VisualStudio.PlatformUI.UIHierarchyMarshaler)ide.ActiveWindow.Object).GetItem(projItem.Name).Select(vsUISelectionType.vsUISelectionTypeSelect);
+                    break;
+                }
             }
             Close();
         }
