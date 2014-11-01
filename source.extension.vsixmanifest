@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="6bb18fff-9e74-4deb-97df-6a94ddafb74e" Version="1.2" Language="en-US" Publisher="Pernicious Games" />
+    <Identity Id="6bb18fff-9e74-4deb-97df-6a94ddafb74e" Version="1.4" Language="en-US" Publisher="Pernicious Games" />
     <DisplayName>OpenFileInSolution</DisplayName>
     <Description>Shows a list of all files in the current solution and allows quickly filtering and opening them.</Description>
   </Metadata>

@@ -43,7 +43,7 @@ namespace PerniciousGames.OpenFileInSolution
     [PackageRegistration(UseManagedResourcesOnly = true)]
     // This attribute is used to register the information needed to show this package
     // in the Help/About dialog of Visual Studio.
-    [InstalledProductRegistration(true, "#110", "#112", "1.2", IconResourceID = 400)]
+    [InstalledProductRegistration(true, "#110", "#112", "1.4", IconResourceID = 400)]
     [Guid(GuidList.guidOpenFileInSolutionPkgString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed class OpenFileInSolutionPackage : Package
