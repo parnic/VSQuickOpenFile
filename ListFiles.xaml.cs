@@ -58,7 +58,7 @@ namespace PerniciousGames.OpenFileInSolution
                         searchStr = Path.GetFileName(searchStr);
                     }
 
-                    if (!string.IsNullOrWhiteSpace(filter) && !searchStr.Contains(filter))
+                    if (!string.IsNullOrWhiteSpace(filter) && !searchStr.Contains(filter.ToLower()))
                     {
                         e.Accepted = false;
                         break;
