@@ -51,6 +51,11 @@ namespace PerniciousGames.OpenFileInSolution
         static readonly Guid ProjectFileGuid = new Guid("6BB5F8EE-4483-11D3-8BCF-00C04F8EC28C");
         static readonly Guid ProjectFolderGuid = new Guid("6BB5F8EF-4483-11D3-8BCF-00C04F8EC28C");
         static readonly Guid ProjectVirtualFolderGuid = new Guid("6BB5F8F0-4483-11D3-8BCF-00C04F8EC28C");
+        static readonly List<string> FileEndingsToSkip = new List<string>()
+            {
+                ".vcxproj.filters",
+                ".vcxproj"
+            };
 
         /// <summary>
         /// Default constructor of the package.
@@ -148,27 +153,43 @@ namespace PerniciousGames.OpenFileInSolution
 
         private IEnumerable<ProjectItemWrapper> EnumerateProjectItems(ProjectItems items)
         {
-            for (int i = 1; i <= items.Count; i++)
+            if (items != null)
             {
-                var itm = items.Item(i);
-                if (Guid.Parse(itm.Kind).Equals(ProjectFolderGuid))
+                for (int i = 1; i <= items.Count; i++)
                 {
-                    continue;
-                }
+                    var itm = items.Item(i);
+                    var itmGuid = Guid.Parse(itm.Kind);
+                    if (itmGuid.Equals(ProjectFolderGuid))
+                    {
+                        continue;
+                    }
 
-                //if (Guid.Parse(itm.Kind).Equals(ProjectVirtualFolderGuid))
-                {
                     foreach (var res in EnumerateProjectItems(itm.ProjectItems))
                     {
                         yield return res;
                     }
-                }
-                //else
-                {
-                    //Debug.WriteLine(itm.Kind + " - " + itm.FileCount + " - " + itm.FileNames[0]);
+
+                    if (itmGuid.Equals(ProjectVirtualFolderGuid))
+                    {
+                        continue;
+                    }
+
                     for (short j = 0; itm != null && j < itm.FileCount; j++)
                     {
-                        yield return new ProjectItemWrapper(itm);
+                        bool bSkip = false;
+                        foreach (var ending in FileEndingsToSkip)
+                        {
+                            if (itm.FileNames[1].EndsWith(ending))
+                            {
+                                bSkip = true;
+                                break;
+                            }
+                        }
+
+                        if (!bSkip)
+                        {
+                            yield return new ProjectItemWrapper(itm);
+                        }
                     }
                 }
             }
