@@ -49,7 +49,8 @@ namespace PerniciousGames.OpenFileInSolution
     public sealed class OpenFileInSolutionPackage : Package
     {
         static readonly Guid ProjectFileGuid = new Guid("6BB5F8EE-4483-11D3-8BCF-00C04F8EC28C");
-        static readonly Guid ProjectFolderGuid = new Guid("6BB5F8F0-4483-11D3-8BCF-00C04F8EC28C");
+        static readonly Guid ProjectFolderGuid = new Guid("6BB5F8EF-4483-11D3-8BCF-00C04F8EC28C");
+        static readonly Guid ProjectVirtualFolderGuid = new Guid("6BB5F8F0-4483-11D3-8BCF-00C04F8EC28C");
 
         /// <summary>
         /// Default constructor of the package.
@@ -152,12 +153,17 @@ namespace PerniciousGames.OpenFileInSolution
                 var itm = items.Item(i);
                 if (Guid.Parse(itm.Kind).Equals(ProjectFolderGuid))
                 {
+                    continue;
+                }
+
+                //if (Guid.Parse(itm.Kind).Equals(ProjectVirtualFolderGuid))
+                {
                     foreach (var res in EnumerateProjectItems(itm.ProjectItems))
                     {
                         yield return res;
                     }
                 }
-                else
+                //else
                 {
                     //Debug.WriteLine(itm.Kind + " - " + itm.FileCount + " - " + itm.FileNames[0]);
                     for (short j = 0; itm != null && j < itm.FileCount; j++)
