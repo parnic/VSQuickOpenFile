@@ -67,13 +67,52 @@ namespace PerniciousGames.OpenFileInSolution
             }
         }
 
+        private string GetSelectedFilename()
+        {
+            var selectedFile = (lstFiles.SelectedItem as ProjectItemWrapper);
+            var selectedFilename = string.Empty;
+            if (selectedFile != null)
+            {
+                selectedFilename = selectedFile.Filename;
+                if (!bSearchFullPath)
+                {
+                    selectedFilename = Path.GetFileName(selectedFilename);
+                }
+            }
+
+            return selectedFilename;
+        }
+
         private void txtFilterChanged(object sender, TextChangedEventArgs e)
         {
             filterStrings = (sender as TextBox).Text.Split(' ');
             viewSource.View.Refresh();
-            if (lstFiles.SelectedIndex == -1 && lstFiles.Items.Count > 0)
+            if (lstFiles.Items.Count > 0)
             {
-                lstFiles.SelectedIndex = 0;
+                if (filterStrings.Length > 0)
+                {
+                    var selectedFilename = GetSelectedFilename();
+
+                    foreach (var fileItem in lstFiles.Items)
+                    {
+                        var file = (fileItem as ProjectItemWrapper).Filename;
+                        if (!bSearchFullPath)
+                        {
+                            file = Path.GetFileName(file.ToString());
+                        }
+
+                        if (string.IsNullOrEmpty(selectedFilename) || file.Length < selectedFilename.Length)
+                        {
+                            lstFiles.SelectedItem = fileItem;
+                            selectedFilename = file;
+                        }
+                    }
+                }
+
+                if (lstFiles.SelectedIndex == -1)
+                {
+                    lstFiles.SelectedIndex = 0;
+                }
             }
         }
 
