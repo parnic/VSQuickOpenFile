@@ -159,17 +159,14 @@ namespace PerniciousGames.OpenFileInSolution
                 {
                     var itm = items.Item(i);
                     var itmGuid = Guid.Parse(itm.Kind);
-                    if (itmGuid.Equals(ProjectFolderGuid))
-                    {
-                        continue;
-                    }
 
                     foreach (var res in EnumerateProjectItems(itm.ProjectItems))
                     {
                         yield return res;
                     }
 
-                    if (itmGuid.Equals(ProjectVirtualFolderGuid))
+                    if (itmGuid.Equals(ProjectVirtualFolderGuid)
+                        || itmGuid.Equals(ProjectFolderGuid))
                     {
                         continue;
                     }
