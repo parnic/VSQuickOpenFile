@@ -4,7 +4,8 @@
         xmlns:vs_shell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.12.0"
         Title="Quick Open File" Height="300" Width="675" WindowStartupLocation="CenterOwner"
         MinWidth="200" MinHeight="100" KeyDown="Window_KeyDown"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}" ShowInTaskbar="False">
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" ShowInTaskbar="False"
+        PreviewKeyDown="Window_PreviewKeyDown">
 
     <Window.Resources>
         <Style TargetType="ListBox">

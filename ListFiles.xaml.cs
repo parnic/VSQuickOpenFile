@@ -241,5 +241,35 @@ namespace PerniciousGames.OpenFileInSolution
                 Close();
             }
         }
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.C)
+            {
+                var lCtrlState = Keyboard.GetKeyStates(Key.LeftCtrl);
+                var rCtrlState = Keyboard.GetKeyStates(Key.LeftCtrl);
+                if (lCtrlState.HasFlag(KeyStates.Down)
+                    || rCtrlState.HasFlag(KeyStates.Down))
+                {
+                    if (!txtFilter.IsFocused || string.IsNullOrEmpty(txtFilter.SelectedText))
+                    {
+                        var copyStr = string.Empty;
+                        foreach (var item in lstFiles.SelectedItems)
+                        {
+                            var projItem = item as ProjectItemWrapper;
+                            if (projItem != null)
+                            {
+                                copyStr += projItem.Filename + System.Environment.NewLine;
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(copyStr))
+                        {
+                            Clipboard.SetText(copyStr);
+                            e.Handled = true;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
