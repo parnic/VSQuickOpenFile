@@ -244,7 +244,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.C)
+            if (e.Key == Key.C || e.Key == Key.Insert)
             {
                 var lCtrlState = Keyboard.GetKeyStates(Key.LeftCtrl);
                 var rCtrlState = Keyboard.GetKeyStates(Key.LeftCtrl);
