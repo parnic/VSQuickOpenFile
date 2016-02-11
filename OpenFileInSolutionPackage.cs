@@ -118,10 +118,8 @@ namespace PerniciousGames.OpenFileInSolution
                 {
                     list.AddRange(GetSolutionFolderProjects(project));
                 }
-                else
-                {
-                    list.Add(project);
-                }
+
+                list.Add(project);
             }
 
             return list;
@@ -143,10 +141,8 @@ namespace PerniciousGames.OpenFileInSolution
                 {
                     list.AddRange(GetSolutionFolderProjects(subProject));
                 }
-                else
-                {
-                    list.Add(subProject);
-                }
+
+                list.Add(subProject);
             }
             return list;
         }
@@ -176,7 +172,7 @@ namespace PerniciousGames.OpenFileInSolution
                         bool bSkip = false;
                         foreach (var ending in FileEndingsToSkip)
                         {
-                            if (itm.FileNames[1].EndsWith(ending))
+                            if (itm.FileNames[1] == null || itm.FileNames[1].EndsWith(ending))
                             {
                                 bSkip = true;
                                 break;
