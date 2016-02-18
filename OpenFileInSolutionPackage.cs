@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using EnvDTE;
-using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 
 namespace PerniciousGames.OpenFileInSolution
@@ -48,6 +47,11 @@ namespace PerniciousGames.OpenFileInSolution
     [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed class OpenFileInSolutionPackage : Package
     {
+        public abstract class EnvDTEProjectKinds
+        {
+            public const string vsProjectKindSolutionFolder = "{66A26720-8FB5-11D2-AA7E-00C04F688DDE}";
+        }
+
         static readonly Guid ProjectFileGuid = new Guid("6BB5F8EE-4483-11D3-8BCF-00C04F8EC28C");
         static readonly Guid ProjectFolderGuid = new Guid("6BB5F8EF-4483-11D3-8BCF-00C04F8EC28C");
         static readonly Guid ProjectVirtualFolderGuid = new Guid("6BB5F8F0-4483-11D3-8BCF-00C04F8EC28C");
@@ -94,10 +98,10 @@ namespace PerniciousGames.OpenFileInSolution
         }
         #endregion
 
-        public static DTE2 GetActiveIDE()
+        public static DTE GetActiveIDE()
         {
             // Get an instance of currently running Visual Studio IDE.
-            DTE2 dte2 = Package.GetGlobalService(typeof(DTE)) as DTE2;
+            DTE dte2 = Package.GetGlobalService(typeof(DTE)) as DTE;
             return dte2;
         }
 
@@ -114,7 +118,7 @@ namespace PerniciousGames.OpenFileInSolution
                     continue;
                 }
 
-                if (project.Kind == ProjectKinds.vsProjectKindSolutionFolder)
+                if (project.Kind == EnvDTEProjectKinds.vsProjectKindSolutionFolder)
                 {
                     list.AddRange(GetSolutionFolderProjects(project));
                 }
@@ -137,7 +141,7 @@ namespace PerniciousGames.OpenFileInSolution
                 }
 
                 // If this is another solution folder, do a recursive call, otherwise add
-                if (subProject.Kind == ProjectKinds.vsProjectKindSolutionFolder)
+                if (subProject.Kind == EnvDTEProjectKinds.vsProjectKindSolutionFolder)
                 {
                     list.AddRange(GetSolutionFolderProjects(subProject));
                 }
