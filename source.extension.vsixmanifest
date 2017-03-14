@@ -9,7 +9,7 @@
     <Tags>open file, quick find</Tags>
   </Metadata>
   <Installation InstalledByMsi="false">
-    <InstallationTarget Id="Microsoft.VisualStudio.IntegratedShell" Version="[11.0, 14.0]" />
+    <InstallationTarget Id="Microsoft.VisualStudio.IntegratedShell" Version="[11.0, 15.0]" />
   </Installation>
   <Dependencies>
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
@@ -18,4 +18,7 @@
   <Assets>
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
   </Assets>
+  <Prerequisites>
+    <Prerequisite Id="Microsoft.VisualStudio.ComponentGroup.VisualStudioExtension.Prerequisites" Version="[15.0.26208.0,16.0)" DisplayName="Visual Studio extension development prerequisites" />
+  </Prerequisites>
 </PackageManifest>
