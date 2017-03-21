@@ -6,13 +6,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using EnvDTE;
 
 namespace PerniciousGames.OpenFileInSolution
 {
-    /// <summary>
-    /// Interaction logic for ListFiles.xaml
-    /// </summary>
     public partial class ListFiles : System.Windows.Window
     {
         internal class EvnDTEConstants
@@ -23,17 +19,15 @@ namespace PerniciousGames.OpenFileInSolution
         public ObservableCollection<ProjectItemWrapper> items { get; set; }
 
         private CollectionViewSource viewSource;
-        public bool bSearchFullPath { get; set; } // todo: config-ize me
+        public bool bSearchFullPath { get; set; }
 
         private string[] filterStrings;
 
         public static string FilterText { get; set; }
 
-        // todo: save static list of last-entered strings. restore most recent one when opening.
-
         public ListFiles(IEnumerable<ProjectItemWrapper> inItems)
         {
-            items = new ObservableCollection<ProjectItemWrapper>(inItems);
+            items = new ObservableCollection<ProjectItemWrapper>(inItems.OrderBy(x => Path.GetFileName(x.Filename)));
             viewSource = new CollectionViewSource();
             viewSource.Source = items;
 
