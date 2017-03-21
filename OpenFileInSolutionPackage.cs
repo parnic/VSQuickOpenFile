@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.Shell;
 
 namespace PerniciousGames.OpenFileInSolution
 {
-    public class ProjectItemWrapper
+    public class ProjectItemWrapper : IEquatable<ProjectItemWrapper>
     {
         public string Filename { get; set; }
         public ProjectItem ProjItem;
@@ -24,6 +24,11 @@ namespace PerniciousGames.OpenFileInSolution
         {
             ProjItem = inItem;
             Filename = inItem.FileNames[1];
+        }
+
+        public bool Equals(ProjectItemWrapper other)
+        {
+            return Filename == other.Filename;
         }
     }
 
@@ -197,7 +202,7 @@ namespace PerniciousGames.OpenFileInSolution
             var projItems = new List<ProjectItemWrapper>();
             foreach (var proj in GetProjects())
             {
-                projItems.AddRange(EnumerateProjectItems(proj.ProjectItems));
+                projItems.AddRangeUnique(EnumerateProjectItems(proj.ProjectItems));
             }
 
             var wnd = new ListFiles(projItems);
