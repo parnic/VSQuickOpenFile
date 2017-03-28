@@ -202,7 +202,7 @@ namespace PerniciousGames.OpenFileInSolution
             var projItems = new List<ProjectItemWrapper>();
             foreach (var proj in GetProjects())
             {
-                projItems.AddRangeUnique(EnumerateProjectItems(proj.ProjectItems));
+                projItems.AddRange(EnumerateProjectItems(proj.ProjectItems));
             }
 
             var wnd = new ListFiles(projItems);

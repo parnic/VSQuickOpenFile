@@ -27,7 +27,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         public ListFiles(IEnumerable<ProjectItemWrapper> inItems)
         {
-            items = new ObservableCollection<ProjectItemWrapper>(inItems.OrderBy(x => Path.GetFileName(x.Filename)));
+            items = new ObservableCollection<ProjectItemWrapper>(inItems.Distinct());
             viewSource = new CollectionViewSource();
             viewSource.Source = items;
 
