@@ -32,6 +32,19 @@ namespace PerniciousGames.OpenFileInSolution
         }
     }
 
+    public class ProjectItemComparer : IEqualityComparer<ProjectItemWrapper>
+    {
+        public bool Equals(ProjectItemWrapper x, ProjectItemWrapper y)
+        {
+            return x.Equals(y);
+        }
+
+        public int GetHashCode(ProjectItemWrapper obj)
+        {
+            return obj.Filename.GetHashCode();
+        }
+    }
+
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
     ///
@@ -199,13 +212,19 @@ namespace PerniciousGames.OpenFileInSolution
 
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            var projItems = new List<ProjectItemWrapper>();
+            var projItems = new Dictionary<string, ProjectItemWrapper>(StringComparer.Ordinal);
             foreach (var proj in GetProjects())
             {
-                projItems.AddRange(EnumerateProjectItems(proj.ProjectItems));
+                foreach (var item in EnumerateProjectItems(proj.ProjectItems))
+                {
+                    if (!projItems.ContainsKey(item.Filename))
+                    {
+                        projItems.Add(item.Filename, item);
+                    }
+                }
             }
 
-            var wnd = new ListFiles(projItems);
+            var wnd = new ListFiles(projItems.Values);
             wnd.Owner = HwndSource.FromHwnd(new IntPtr(GetActiveIDE().MainWindow.HWnd)).RootVisual as System.Windows.Window;
             wnd.Width = wnd.Owner.Width / 2;
             wnd.Height = wnd.Owner.Height / 3;
