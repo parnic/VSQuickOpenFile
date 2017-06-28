@@ -2,10 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vs_shell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.11.0"
-        Title="Quick Open File" Height="300" Width="675" WindowStartupLocation="CenterOwner"
+        Title="Quick Open File" WindowStartupLocation="CenterOwner"
         MinWidth="200" MinHeight="100" KeyDown="Window_KeyDown"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" ShowInTaskbar="False"
-        PreviewKeyDown="Window_PreviewKeyDown">
+        PreviewKeyDown="Window_PreviewKeyDown"
+        SourceInitialized="Window_SourceInitialized"
+        Closing="Window_Closing">
 
     <Window.Resources>
         <Style TargetType="ListBox">
