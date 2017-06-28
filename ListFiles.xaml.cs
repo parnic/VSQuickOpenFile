@@ -307,7 +307,7 @@ namespace PerniciousGames.OpenFileInSolution
                 this.Height = Properties.Settings.Default.Height;
                 this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 // swallow exception if settings fail to load
             }
