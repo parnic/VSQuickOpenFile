@@ -288,24 +288,27 @@ namespace PerniciousGames.OpenFileInSolution
         {
             try
             {
-                var bottomBound = System.Windows.Forms.Screen.AllScreens.Max(s => s.Bounds.Bottom);
-                var rightBound = System.Windows.Forms.Screen.AllScreens.Max(s => s.Bounds.Right);
-
-                // only apply left setting if it is visible on current screen(s)
-                if (Properties.Settings.Default.Left < rightBound)
+                if (Properties.Settings.Default.Left > 0 && Properties.Settings.Default.Top > 0)
                 {
-                    this.Left = Properties.Settings.Default.Left;
-                }
+                    var bottomBound = System.Windows.Forms.Screen.AllScreens.Max(s => s.Bounds.Bottom);
+                    var rightBound = System.Windows.Forms.Screen.AllScreens.Max(s => s.Bounds.Right);
 
-                // only apply top setting if it is visible on current screen(s)
-                if (Properties.Settings.Default.Top < bottomBound)
-                {
-                    this.Top = Properties.Settings.Default.Top;
-                }
+                    // only apply left setting if it is visible on current screen(s)
+                    if (Properties.Settings.Default.Left < rightBound)
+                    {
+                        this.Left = Properties.Settings.Default.Left;
+                    }
 
-                this.Width = Properties.Settings.Default.Width;
-                this.Height = Properties.Settings.Default.Height;
-                this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
+                    // only apply top setting if it is visible on current screen(s)
+                    if (Properties.Settings.Default.Top < bottomBound)
+                    {
+                        this.Top = Properties.Settings.Default.Top;
+                    }
+
+                    this.Width = Properties.Settings.Default.Width;
+                    this.Height = Properties.Settings.Default.Height;
+                    this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
+                }
             }
             catch (System.Exception)
             {
