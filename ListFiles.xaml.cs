@@ -44,6 +44,11 @@ namespace PerniciousGames.OpenFileInSolution
             }
         }
 
+        protected void Window_SourceInitialized(object sender, System.EventArgs e)
+        {
+            LoadWindowSettings();
+        }
+
         private void FilterProjectItems(object sender, FilterEventArgs e)
         {
             e.Accepted = true;
@@ -137,6 +142,11 @@ namespace PerniciousGames.OpenFileInSolution
             Close();
         }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SaveWindowSettings();            
+        }
+        
         private void txtFilter_KeyDown(object sender, KeyEventArgs e)
         {
             if (lstFiles.Items.Count > 0)
@@ -269,6 +279,50 @@ namespace PerniciousGames.OpenFileInSolution
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Restores the window's previous size and position
+        /// </summary>
+        private void LoadWindowSettings()
+        {
+            try
+            {
+                var bottomBound = System.Windows.Forms.Screen.AllScreens.Max(s => s.Bounds.Bottom);
+                var rightBound = System.Windows.Forms.Screen.AllScreens.Max(s => s.Bounds.Right);
+
+                // only apply left setting if it is visible on current screen(s)
+                if (Properties.Settings.Default.Left < rightBound)
+                {
+                    this.Left = Properties.Settings.Default.Left;
+                }
+
+                // only apply top setting if it is visible on current screen(s)
+                if (Properties.Settings.Default.Top < bottomBound)
+                {
+                    this.Top = Properties.Settings.Default.Top;
+                }
+
+                this.Width = Properties.Settings.Default.Width;
+                this.Height = Properties.Settings.Default.Height;
+                this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
+            }
+            catch (System.Exception ex)
+            {
+                // swallow exception if settings fail to load
+            }
+        }
+
+        /// <summary>
+        /// Saves the window's current size and position
+        /// </summary>
+        private void SaveWindowSettings()
+        {
+            Properties.Settings.Default.Width = RestoreBounds.Width;
+            Properties.Settings.Default.Height = RestoreBounds.Height;
+            Properties.Settings.Default.Top = RestoreBounds.Top;
+            Properties.Settings.Default.Left = RestoreBounds.Left;
+            Properties.Settings.Default.WindowState = (int)this.WindowState;
         }
     }
 }
