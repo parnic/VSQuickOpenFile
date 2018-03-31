@@ -144,9 +144,9 @@ namespace PerniciousGames.OpenFileInSolution
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            SaveWindowSettings();            
+            SaveWindowSettings();
         }
-        
+
         private void txtFilter_KeyDown(object sender, KeyEventArgs e)
         {
             if (lstFiles.Items.Count > 0)
@@ -217,6 +217,15 @@ namespace PerniciousGames.OpenFileInSolution
             if (lstFiles.SelectedItems.Count > 0)
             {
                 OpenSelectedFiles(false);
+            }
+        }
+
+        private void lstFiles_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter || e.Key == Key.Return)
+            {
+                e.Handled = true;
+                OpenSelectedFiles(Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl));
             }
         }
 
