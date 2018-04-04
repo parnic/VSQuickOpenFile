@@ -105,7 +105,7 @@ namespace PerniciousGames.OpenFileInSolution
         /// </summary>
         protected override void Initialize()
         {
-            Debug.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
+            Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
@@ -180,17 +180,24 @@ namespace PerniciousGames.OpenFileInSolution
                 for (int i = 1; i <= items.Count; i++)
                 {
                     var itm = items.Item(i);
-                    var itmGuid = Guid.Parse(itm.Kind);
-
+                    
                     foreach (var res in EnumerateProjectItems(itm.ProjectItems))
                     {
                         yield return res;
                     }
 
-                    if (itmGuid.Equals(ProjectVirtualFolderGuid)
-                        || itmGuid.Equals(ProjectFolderGuid))
+                    try
                     {
-                        continue;
+                        var itmGuid = Guid.Parse(itm.Kind);
+                        if (itmGuid.Equals(ProjectVirtualFolderGuid)
+                            || itmGuid.Equals(ProjectFolderGuid))
+                        {
+                            continue;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        // itm.Kind may throw an exception with certain node types like WixExtension (COMException)
                     }
 
                     for (short j = 0; itm != null && j < itm.FileCount; j++)
