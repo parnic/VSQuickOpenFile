@@ -45,7 +45,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         public int GetHashCode(ProjectItemWrapper obj)
         {
-            return obj.Filename.GetHashCode();
+            return obj.Path.GetHashCode();
         }
     }
 
@@ -180,7 +180,7 @@ namespace PerniciousGames.OpenFileInSolution
                 for (int i = 1; i <= items.Count; i++)
                 {
                     var itm = items.Item(i);
-                    
+
                     foreach (var res in EnumerateProjectItems(itm.ProjectItems))
                     {
                         yield return res;
@@ -228,9 +228,9 @@ namespace PerniciousGames.OpenFileInSolution
             {
                 foreach (var item in EnumerateProjectItems(proj.ProjectItems))
                 {
-                    if (!projItems.ContainsKey(item.Filename))
+                    if (!projItems.ContainsKey(item.Path))
                     {
-                        projItems.Add(item.Filename, item);
+                        projItems.Add(item.Path, item);
                     }
                 }
             }
