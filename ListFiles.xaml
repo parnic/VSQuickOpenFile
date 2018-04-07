@@ -20,16 +20,92 @@
             <Setter Property="FontFamily" Value="{DynamicResource VsFont.EnvironmentFontFamily}" />
             <Setter Property="FontSize" Value="{DynamicResource VsFont.EnvironmentFontSize}" />
         </Style>
+        <Style x:Key="ColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
+            <Setter Property="Width" Value="8"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Cursor" Value="SizeWE"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style TargetType="DataGridColumnHeader">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.GridHeadingTextBrushKey}}"/>
             <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.GridHeadingBackgroundBrushKey}}"/>
             <Setter Property="SeparatorBrush" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.GridLineBrushKey}}"/>
             <Setter Property="Padding" Value="4 0 0 0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Grid>
+                            <Border x:Name="columnHeaderBorder"
+                              BorderThickness="1"
+                              Padding="3,0,3,0">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush EndPoint="0.5,1"
+                                        StartPoint="0.5,0">
+                                        <GradientStop Color="{DynamicResource BorderLightColor}"
+                                            Offset="0" />
+                                        <GradientStop Color="{DynamicResource BorderDarkColor}"
+                                            Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1"
+                                        StartPoint="0.5,0">
+                                        <GradientStop Color="{DynamicResource ControlLightColor}"
+                                            Offset="0" />
+                                        <GradientStop Color="{DynamicResource ControlMediumColor}"
+                                            Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter Grid.Column="0" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    <Path x:Name="SortArrow"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Right" VerticalAlignment="Center"
+                                            Width="8" Height="6" Margin="2,0,5,0"
+                                            Stretch="Fill" Opacity="0.5" Fill="White"
+                                            RenderTransformOrigin="0.5,0.4"
+                                            Visibility="Collapsed"
+                                            Data="M0,0 L1,0 0.5,1 z" />
+                                </Grid>
+                            </Border>
+
+                            <Thumb x:Name="PART_LeftHeaderGripper"
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource ColumnHeaderGripperStyle}"/>
+                            <Thumb x:Name="PART_RightHeaderGripper"
+                                    HorizontalAlignment="Right"
+                                    Style="{StaticResource ColumnHeaderGripperStyle}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="SortDirection" Value="Ascending">
+                                <Setter TargetName="SortArrow" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="SortArrow" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="180" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="SortDirection" Value="Descending">
+                                <Setter TargetName="SortArrow" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
         <Style TargetType="DataGridCell">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
             <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.GridLineBrushKey}}"/>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="true">
                     <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.SystemHighlightTextBrushKey}}"/>
@@ -129,26 +205,26 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <DataGrid Name="lstFiles" SelectionMode="Extended" MouseDoubleClick="lstFiles_MouseDoubleClick" PreviewKeyDown="lstFiles_PreviewKeyDown" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserDeleteRows="False">
+        <DataGrid Name="lstFiles" SelectionMode="Extended" MouseDoubleClick="lstFiles_MouseDoubleClick" PreviewKeyDown="lstFiles_PreviewKeyDown" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserDeleteRows="False" CanUserSortColumns="True">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Name" Width="SizeToCells">
+                <DataGridTemplateColumn Header="Name" Width="Auto" SortMemberPath="Filename">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Filename}"/>
+                            <TextBlock Text="{Binding Filename}" Padding="0,0,5,0"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Project" Width="Auto">
+                <DataGridTemplateColumn Header="Project" Width="Auto" SortMemberPath="Project">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Project}"/>
+                            <TextBlock Text="{Binding Project}" Padding="0,0,5,0"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Path" Width="Auto">
+                <DataGridTemplateColumn Header="Path" Width="*" SortMemberPath="Path">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path}"/>
+                            <TextBlock Text="{Binding Path}" Padding="0,0,5,0"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
