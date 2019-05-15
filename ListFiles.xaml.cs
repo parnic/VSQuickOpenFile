@@ -12,7 +12,7 @@ namespace PerniciousGames.OpenFileInSolution
 {
     public partial class ListFiles : System.Windows.Window
     {
-        internal class EvnDTEConstants
+        internal class EnvDTEConstants
         {
             public const string vsWindowKindSolutionExplorer = "{3AE79031-E1BC-11D0-8F78-00A0C9110057}";
         }
@@ -142,7 +142,7 @@ namespace PerniciousGames.OpenFileInSolution
                 {
                     var projItem = (item as ProjectItemWrapper).ProjItem;
                     var ide = OpenFileInSolutionPackage.GetActiveIDE();
-                    ide.Windows.Item(EvnDTEConstants.vsWindowKindSolutionExplorer).Activate();
+                    ide.Windows.Item(EnvDTEConstants.vsWindowKindSolutionExplorer).Activate();
                     projItem.ExpandView();
                     //((Microsoft.VisualStudio.PlatformUI.UIHierarchyMarshaler)ide.ActiveWindow.Object).GetItem(projItem.Name).Select(vsUISelectionType.vsUISelectionTypeSelect);
                     break;
