@@ -129,7 +129,7 @@ namespace PerniciousGames.OpenFileInSolution
                 {
                     try
                     {
-                        var w = (item as ProjectItemWrapper).ProjItem.Open("{7651A703-06E5-11D1-8EBD-00A0C90F26EA}");
+                        var w = (item as ProjectItemWrapper).ProjItem.Open();
                         w.Visible = true;
                     }
                     catch (Exception)
