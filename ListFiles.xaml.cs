@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -126,8 +127,16 @@ namespace PerniciousGames.OpenFileInSolution
             {
                 if (!bInSolutionExplorer)
                 {
-                    var w = (item as ProjectItemWrapper).ProjItem.Open();
-                    w.Visible = true;
+                    try
+                    {
+                        var w = (item as ProjectItemWrapper).ProjItem.Open("{7651A703-06E5-11D1-8EBD-00A0C90F26EA}");
+                        w.Visible = true;
+                    }
+                    catch (Exception)
+                    {
+                        var w = OpenFileInSolutionPackage.GetActiveIDE().ItemOperations.OpenFile((item as ProjectItemWrapper).Path);
+                        w.Visible = true;
+                    }
                 }
                 else
                 {
