@@ -236,6 +236,26 @@ namespace PerniciousGames.OpenFileInSolution
                 e.Handled = true;
                 OpenSelectedFiles(Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl));
             }
+            else if (e.Key == Key.Tab)
+            {
+                var NewSelectedIndex = lstFiles.SelectedIndex + 1;
+                if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+                {
+                    NewSelectedIndex -= 2;
+                }
+                if (NewSelectedIndex >= 0)
+                {
+                    e.Handled = true;
+                    if (NewSelectedIndex < lstFiles.Items.Count)
+                    {
+                        lstFiles.SelectedIndex = NewSelectedIndex;
+                    }
+                    else
+                    {
+                        lstFiles.MoveFocus(new TraversalRequest(FocusNavigationDirection.Down));
+                    }
+                }
+            }
         }
 
         private void btnSettings_Click(object sender, RoutedEventArgs e)
