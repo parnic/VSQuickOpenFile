@@ -52,22 +52,49 @@ namespace PerniciousGames.OpenFileInSolution
 
         private void FilterProjectItems(object sender, FilterEventArgs e)
         {
+            var searchStr = (e.Item as ProjectItemWrapper).Filename;
+            if (!bSearchFullPath)
+            {
+                searchStr = Path.GetFileName(searchStr);
+            }
+            var searchStrLower = searchStr.ToLower();
+
             e.Accepted = true;
             if (!string.IsNullOrEmpty(FilterText))
             {
                 foreach (var filter in filterStrings)
                 {
-                    var searchStr = (e.Item as ProjectItemWrapper).Filename.ToLower();
-                    if (!bSearchFullPath)
-                    {
-                        searchStr = Path.GetFileName(searchStr);
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(filter) && !searchStr.Contains(filter.ToLower()))
+                    if (!string.IsNullOrWhiteSpace(filter) && !searchStrLower.Contains(filter.ToLower()))
                     {
                         e.Accepted = false;
                         break;
                     }
+                }
+            }
+
+            if (!e.Accepted)
+            {
+                int filterTextIdx = 0;
+                foreach (var ch in searchStr)
+                {
+                    if (ch != char.ToUpper(ch))
+                    {
+                        continue;
+                    }
+
+                    if (ch == char.ToUpper(FilterText[filterTextIdx]))
+                    {
+                        filterTextIdx++;
+                    }
+                    if (filterTextIdx == FilterText.Length)
+                    {
+                        break;
+                    }
+                }
+
+                if (filterTextIdx == FilterText.Length)
+                {
+                    e.Accepted = true;
                 }
             }
         }
