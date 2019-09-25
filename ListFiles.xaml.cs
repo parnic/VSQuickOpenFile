@@ -158,13 +158,11 @@ namespace PerniciousGames.OpenFileInSolution
                     {
                         var w = (item as ProjectItemWrapper).ProjItem.Open();
                         w.Visible = true;
-                        w.Activate();
                     }
                     catch (Exception)
                     {
                         var w = OpenFileInSolutionPackage.GetActiveIDE().ItemOperations.OpenFile((item as ProjectItemWrapper).Path);
                         w.Visible = true;
-                        w.Activate();
                     }
                 }
                 else
