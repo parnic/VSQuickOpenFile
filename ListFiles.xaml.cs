@@ -52,7 +52,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         private void FilterProjectItems(object sender, FilterEventArgs e)
         {
-            var searchStr = (e.Item as ProjectItemWrapper).Filename;
+            var searchStr = (e.Item as ProjectItemWrapper).Path;
             if (!bSearchFullPath)
             {
                 searchStr = Path.GetFileName(searchStr);
