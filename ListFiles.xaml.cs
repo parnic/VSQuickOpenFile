@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.Shell;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -150,6 +151,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         private void OpenSelectedFiles(bool bInSolutionExplorer)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             foreach (var item in lstFiles.SelectedItems)
             {
                 if (!bInSolutionExplorer)
@@ -185,6 +187,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         private void txtFilter_KeyDown(object sender, KeyEventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             if (lstFiles.Items.Count > 0)
             {
                 if (e.Key == Key.Down)
@@ -250,6 +253,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         private void lstFiles_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             if (lstFiles.SelectedItems.Count > 0)
             {
                 OpenSelectedFiles(false);
@@ -258,6 +262,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         private void lstFiles_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             if (e.Key == Key.Enter || e.Key == Key.Return)
             {
                 e.Handled = true;
@@ -304,6 +309,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             if (e.Key == Key.Enter || e.Key == Key.Return)
             {
                 e.Handled = true;

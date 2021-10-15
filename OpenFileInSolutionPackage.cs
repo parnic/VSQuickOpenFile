@@ -24,6 +24,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         public ProjectItemWrapper(ProjectItem inItem)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             ProjItem = inItem;
             Path = inItem.FileNames[1];
             Filename = System.IO.Path.GetFileName(Path);
@@ -105,6 +106,7 @@ namespace PerniciousGames.OpenFileInSolution
         /// </summary>
         protected override void Initialize()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
@@ -122,6 +124,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         public static DTE GetActiveIDE()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             // Get an instance of currently running Visual Studio IDE.
             DTE dte2 = Package.GetGlobalService(typeof(DTE)) as DTE;
             return dte2;
@@ -129,6 +132,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         public static IList<Project> GetProjects()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             Projects projects = GetActiveIDE().Solution.Projects;
             List<Project> list = new List<Project>();
             var item = projects.GetEnumerator();
@@ -153,6 +157,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         private static IEnumerable<Project> GetSolutionFolderProjects(Project solutionFolder)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             List<Project> list = new List<Project>();
             for (var i = 1; i <= solutionFolder.ProjectItems.Count; i++)
             {
@@ -175,6 +180,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         private IEnumerable<ProjectItemWrapper> EnumerateProjectItems(ProjectItems items)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             if (items != null)
             {
                 for (int i = 1; i <= items.Count; i++)
@@ -223,6 +229,7 @@ namespace PerniciousGames.OpenFileInSolution
 
         private void MenuItemCallback(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             var projItems = new Dictionary<string, ProjectItemWrapper>(StringComparer.Ordinal);
             foreach (var proj in GetProjects())
             {
