@@ -243,7 +243,11 @@ namespace PerniciousGames.OpenFileInSolution
             }
 
             var wnd = new ListFiles(projItems.Values);
+#if Dev17
+            wnd.Owner = HwndSource.FromHwnd(GetActiveIDE().MainWindow.HWnd).RootVisual as System.Windows.Window;
+#else
             wnd.Owner = HwndSource.FromHwnd(new IntPtr(GetActiveIDE().MainWindow.HWnd)).RootVisual as System.Windows.Window;
+#endif
             wnd.Width = wnd.Owner.Width / 2;
             wnd.Height = wnd.Owner.Height / 3;
             wnd.ShowDialog();
