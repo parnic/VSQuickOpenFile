@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenFileInSolution", "OpenFileInSolution.csproj", "{89FE4454-2478-4AD2-BA39-263D5EC38B77}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "OpenFileInSolutionShared", "OpenFileInSolutionShared\OpenFileInSolutionShared.shproj", "{B62F2E7D-CF85-40DF-920F-97208FADC4F6}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		OpenFileInSolutionShared\OpenFileInSolutionShared.projitems*{89fe4454-2478-4ad2-ba39-263d5ec38b77}*SharedItemsImports = 4
+		OpenFileInSolutionShared\OpenFileInSolutionShared.projitems*{b62f2e7d-cf85-40df-920f-97208fadc4f6}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -18,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4C5C7B12-F528-49D1-BA62-725A87C39720}
 	EndGlobalSection
 EndGlobal
