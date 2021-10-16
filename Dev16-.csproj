@@ -96,9 +96,7 @@
     <Compile Include="Properties\Settings.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SharedContent\openfileinsolution.png">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
+    <Content Include="SharedContent\openfileinsolution.png" />
     <VSCTCompile Include="SharedContent\OpenFileInSolution.vsct">
       <Link>OpenFileInSolution.vsct</Link>
       <ResourceName>Menus.ctmenu</ResourceName>
