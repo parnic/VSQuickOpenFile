@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="6bb18fff-9e74-4deb-97df-6a94ddafb74e" Version="1.15.3" Language="en-US" Publisher="Pernicious Games" />
+        <Identity Id="Dev17.fe76fd33-c38d-4ead-be65-75c060862f5b" Version="1.15.3" Language="en-US" Publisher="Pernicious Games" />
         <DisplayName>Open File In Solution</DisplayName>
         <Description xml:space="preserve">Shows a list of all files in the current solution and allows quickly filtering and opening them.</Description>
         <License>SharedContent\LICENSE</License>
@@ -11,14 +11,8 @@
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
             <ProductArchitecture>amd64</ProductArchitecture>
         </InstallationTarget>
-        <InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.Community">
-            <ProductArchitecture>x86</ProductArchitecture>
-        </InstallationTarget>
         <InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.IntegratedShell">
             <ProductArchitecture>amd64</ProductArchitecture>
-        </InstallationTarget>
-        <InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.IntegratedShell">
-            <ProductArchitecture>x86</ProductArchitecture>
         </InstallationTarget>
     </Installation>
     <Dependencies>
