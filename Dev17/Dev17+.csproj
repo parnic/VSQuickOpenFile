@@ -40,7 +40,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;Dev17</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -49,6 +49,12 @@
     <Compile Include="Properties\Settings.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\SharedContent\LICENSE">
+      <Link>LICENSE</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <VSIXSubPath>SharedContent</VSIXSubPath>
+      <TargetPath>LICENSE</TargetPath>
+    </Content>
     <None Include="Properties\Settings.settings" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
@@ -72,6 +78,15 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.0.0-previews-3-31605-261" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.4207-preview4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\SharedContent\openfileinsolution.png">
+      <Link>openfileinsolution.png</Link>
+    </Content>
+    <VSCTCompile Include="..\SharedContent\OpenFileInSolution.vsct">
+      <Link>OpenFileInSolution.vsct</Link>
+      <ResourceName>Menus.ctmenu</ResourceName>
+    </VSCTCompile>
   </ItemGroup>
   <Import Project="..\OpenFileInSolutionShared\OpenFileInSolutionShared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
