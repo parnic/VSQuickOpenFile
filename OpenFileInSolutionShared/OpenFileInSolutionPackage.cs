@@ -4,9 +4,11 @@ using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Interop;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
+using Task = System.Threading.Tasks.Task;
 
 namespace PerniciousGames.OpenFileInSolution
 {
@@ -62,13 +64,13 @@ namespace PerniciousGames.OpenFileInSolution
     /// </summary>
     // This attribute tells the PkgDef creation utility (CreatePkgDef.exe) that this class is
     // a package.
-    [PackageRegistration(UseManagedResourcesOnly = true)]
+    [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     // This attribute is used to register the information needed to show this package
     // in the Help/About dialog of Visual Studio.
     [InstalledProductRegistration("OpenFileInSolution", "Displays a dialog to quick-open any file in the solution", "ID")]
     [Guid(GuidList.guidOpenFileInSolutionPkgString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    public sealed class OpenFileInSolutionPackage : Package
+    public sealed class OpenFileInSolutionPackage : AsyncPackage
     {
         public abstract class EnvDTEProjectKinds
         {
@@ -104,13 +106,17 @@ namespace PerniciousGames.OpenFileInSolution
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
         /// where you can put all the initialization code that rely on services provided by VisualStudio.
         /// </summary>
-        protected override void Initialize()
+        /// <param name="cancellationToken">A cancellation token to monitor for initialization cancellation, which can occur when VS is shutting down.</param>
+        /// <param name="progress">A provider for progress updates.</param>
+        /// <returns>A task representing the async work of package initialization, or an already completed task if there is none. Do not return null from this method.</returns>
+        protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
-            base.Initialize();
+            // When initialized asynchronously, the current thread may be a background thread at this point.
+            // Do any initialization that requires the UI thread after switching to the UI thread.
+            await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+            Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering InitializeAsync() of: {0}", this.ToString()));
 
-            OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            OleMenuCommandService mcs = await GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (null != mcs)
             {
                 // Create the command for the menu item.
