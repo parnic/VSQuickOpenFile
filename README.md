@@ -11,7 +11,9 @@ This extension will parse the projects in your solution and look for files. Once
 - Set a key binding for Tools.OpenFileInSolution 
 
 ## Installation
-[Download](https://marketplace.visualstudio.com/items?itemName=PerniciousGames.OpenFileInSolution) this extension from the Visual Studio Marketplace.
+[Download](https://marketplace.visualstudio.com/items?itemName=PerniciousGames.OpenFileInSolution) this extension for Visual Studio 2012, 2013, 2015, 2017, 2019 from the Visual Studio Marketplace.
+
+[Download](https://marketplace.visualstudio.com/items?itemName=PerniciousGames.OpenFileInSolution2022) this extension for Visual Studio 2022 from the Visual Studio Marketplace.
 
 ## Future improvements:
 - Need to cache the list of files in the solution so it doesn't have to re-parse them every time. This means updating the cached list when new files/projects are added or loaded.
