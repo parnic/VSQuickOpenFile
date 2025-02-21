@@ -82,5 +82,20 @@ namespace PerniciousGames.OpenFileInSolution.Properties {
                 this["WindowState"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool bSearchFullPath
+        {
+            get
+            {
+                return ((bool)(this["bSearchFullPath"]));
+            }
+            set
+            {
+                this["bSearchFullPath"] = value;
+            }
+        }
     }
 }

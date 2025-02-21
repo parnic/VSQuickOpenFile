@@ -33,6 +33,8 @@ namespace PerniciousGames.OpenFileInSolution
             viewSource = new CollectionViewSource();
             viewSource.Source = items;
 
+            bSearchFullPath = Properties.Settings.Default.bSearchFullPath;
+
             InitializeComponent();
 
             viewSource.Filter += FilterProjectItems;
@@ -397,6 +399,7 @@ namespace PerniciousGames.OpenFileInSolution
             Properties.Settings.Default.Top = RestoreBounds.Top;
             Properties.Settings.Default.Left = RestoreBounds.Left;
             Properties.Settings.Default.WindowState = (int)this.WindowState;
+            Properties.Settings.Default.bSearchFullPath = bSearchFullPath;
         }
     }
 }
