@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="Dev17.fe76fd33-c38d-4ead-be65-75c060862f5b" Version="1.15.4" Language="en-US" Publisher="Pernicious Games" />
+        <Identity Id="Dev17.fe76fd33-c38d-4ead-be65-75c060862f5b" Version="1.16.0" Language="en-US" Publisher="Pernicious Games" />
         <DisplayName>Open File In Solution</DisplayName>
         <Description xml:space="preserve">Shows a list of all files in the current solution and allows quickly filtering and opening them.</Description>
         <License>SharedContent\LICENSE</License>
         <Tags>open file, quick find, fast find, fast open, openfile, quick open, quickopen, shift alt o, shift+alt+o, visual assist</Tags>
     </Metadata>
     <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 19.0)">
             <ProductArchitecture>amd64</ProductArchitecture>
         </InstallationTarget>
-        <InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.IntegratedShell">
+        <InstallationTarget Version="[17.0,19.0)" Id="Microsoft.VisualStudio.IntegratedShell">
             <ProductArchitecture>amd64</ProductArchitecture>
         </InstallationTarget>
     </Installation>
@@ -19,7 +19,7 @@
         <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.7.2,)" />
     </Dependencies>
     <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,18.0)" DisplayName="Visual Studio core editor" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,19.0)" DisplayName="Visual Studio core editor" />
     </Prerequisites>
     <Assets>
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
